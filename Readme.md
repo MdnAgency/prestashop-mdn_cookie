@@ -1,0 +1,1 @@
+# MDN Cookie Content
