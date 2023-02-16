@@ -51,7 +51,7 @@ class Mdn_cookie extends Module
     {
         $this->name = 'mdn_cookie';
         $this->tab = 'front_office_features';
-        $this->version = '1.0.0';
+        $this->version = '1.0.1';
         $this->author = 'Loris Pinna';
         /**
          * Set $this->bootstrap to true if your module is compliant with bootstrap (PrestaShop 1.6)
@@ -84,7 +84,7 @@ class Mdn_cookie extends Module
         Configuration::updateValue(self::MDN_COOKIE_PARAM_BTN_BG, "#000");
 
         return parent::install() &&
-            $this->registerHook('header') && 
+            $this->registerHook('displayHeader') &&
             $this->registerHook('displayFooter');
     }
 
@@ -473,14 +473,10 @@ class Mdn_cookie extends Module
     /**
      * Add the CSS & JavaScript files you want to be added on the FO.
      */
-    public function hookHeader()
+    public function hookdisplayHeader()
     {
         $this->context->controller->addCSS($this->_path.'/views/css/front.css');
-    }
 
-    
-    public function hookDisplayFooter()
-    {
         $this->context->smarty->assign(
             [
                 'colors' => [
@@ -570,6 +566,12 @@ class Mdn_cookie extends Module
 
             ]
         );
+        return $this->display(__FILE__, "views/templates/front/hook/displayHeader.tpl");
+    }
+
+    
+    public function hookDisplayFooter()
+    {
         return $this->display(__FILE__, "views/templates/front/hook/displayFooter.tpl");
     }
 }
