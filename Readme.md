@@ -11,3 +11,6 @@ This module is a wrapper for [cookie-consent by 68publishers](https://github.com
 ## Change CSS
 A button exist on page, which can be easily changed by overwriting `views/css/style.css` in your theme.
 
+
+## Contributors
+[Loris Pinna](https://github.com/DevLoris)
