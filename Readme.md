@@ -1,4 +1,4 @@
-# MDN Cookie Content
+# Prestashop MDN Cookie Content
 
 MDN Cookie Content is a module developed by Maisondunet, a french web agency. It allows you to manage cookie consent easily with 5 categories directly in Prestashop
 
