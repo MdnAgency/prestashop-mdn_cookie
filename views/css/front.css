@@ -30,14 +30,17 @@
     position: fixed;
     bottom: 0;
     right: 1rem;
-    background: var(--mdn-background);
-    color: var(--mdn-primary);
+    background: var(--mdn-background)!important;
     padding: 0.5rem 1rem !important;
     font-weight: 600;
     transform: translateY(50%);
     transition: 0.5s;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
     font-size: 0.875rem;
+}
+
+.mdn-cookie-button a {
+    color: var(--mdn-primary) !important;
 }
 
 .mdn-cookie-button:hover {

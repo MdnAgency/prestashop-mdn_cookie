@@ -1,1 +1,1 @@
-<div class="open-mdn-cookie mdn-cookie-button"> </div>
+<div class="open-mdn-cookie mdn-cookie-button"></div>

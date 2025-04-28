@@ -41,9 +41,12 @@ class Mdn_cookie extends Module
     const MDN_COOKIE_DISPLAY_SECTION_SECURITY = "MDN_COOKIE_DISPLAY_SECTION_SECURITY";
     const MDN_COOKIE_DISPLAY_SECTION_ADS = "MDN_COOKIE_DISPLAY_SECTION_ADS";
     const MDN_COOKIE_DISPLAY_SECTION_ANALYTICS = "MDN_COOKIE_DISPLAY_SECTION_ANALYTICS";
+    const MDN_COOKIE_DISPLAY_SECTION_AD_PERSONALIZATION = "MDN_COOKIE_DISPLAY_SECTION_AD_PERSONALIZATION";
+    const MDN_COOKIE_DISPLAY_SECTION_AD_USER_DATA = "MDN_COOKIE_DISPLAY_SECTION_AD_USER_DATA";
     const MDN_COOKIE_AUTO_CLEAR = "MDN_COOKIE_AUTO_CLEAR";
     const MDN_COOKIE_PARAM_BTN_COLOR = "MDN_COOKIE_PARAM_BTN_COLOR";
     const MDN_COOKIE_PARAM_BTN_BG = "MDN_COOKIE_PARAM_BTN_BG";
+    const MDN_COOKIE_PARAM_BTN_BUTTON = "MDN_COOKIE_PARAM_BTN_BUTTON";
 
     protected $config_form = false;
 
@@ -51,7 +54,7 @@ class Mdn_cookie extends Module
     {
         $this->name = 'mdn_cookie';
         $this->tab = 'front_office_features';
-        $this->version = '1.0.1';
+        $this->version = '1.1.0';
         $this->author = 'Loris Pinna';
         /**
          * Set $this->bootstrap to true if your module is compliant with bootstrap (PrestaShop 1.6)
@@ -79,9 +82,12 @@ class Mdn_cookie extends Module
         Configuration::updateValue(self::MDN_COOKIE_DISPLAY_SECTION_FUNCTION, true);
         Configuration::updateValue(self::MDN_COOKIE_DISPLAY_SECTION_CUSTOMISE, true);
         Configuration::updateValue(self::MDN_COOKIE_DISPLAY_SECTION_SECURITY, true);
+        Configuration::updateValue(self::MDN_COOKIE_DISPLAY_SECTION_AD_USER_DATA, true);
+        Configuration::updateValue(self::MDN_COOKIE_DISPLAY_SECTION_AD_PERSONALIZATION, true);
         Configuration::updateValue(self::MDN_COOKIE_AUTO_CLEAR, false);
         Configuration::updateValue(self::MDN_COOKIE_PARAM_BTN_COLOR, "#2d4156");
-        Configuration::updateValue(self::MDN_COOKIE_PARAM_BTN_BG, "#000");
+        Configuration::updateValue(self::MDN_COOKIE_PARAM_BTN_BG, "#fff");
+        Configuration::updateValue(self::MDN_COOKIE_PARAM_BTN_BUTTON, "#2d4156");
 
         return parent::install() &&
             $this->registerHook('displayHeader') &&
@@ -360,6 +366,25 @@ class Mdn_cookie extends Module
                     ),
                     array(
                         'type' => 'switch',
+                        'label' => $this->l('Enable Analytics Cookie section'),
+                        'name' => self::MDN_COOKIE_DISPLAY_SECTION_ANALYTICS,
+                        'is_bool' => true,
+                        'desc' => $this->l('Enable Analytics Cookie section in front office'),
+                        'values' => array(
+                            array(
+                                'id' => 'active_on',
+                                'value' => true,
+                                'label' => $this->l('Enabled')
+                            ),
+                            array(
+                                'id' => 'active_off',
+                                'value' => false,
+                                'label' => $this->l('Disabled')
+                            )
+                        ),
+                    ),
+                    array(
+                        'type' => 'switch',
                         'label' => $this->l('Enable Ads Cookie section'),
                         'name' => self::MDN_COOKIE_DISPLAY_SECTION_ADS,
                         'is_bool' => true,
@@ -379,10 +404,29 @@ class Mdn_cookie extends Module
                     ),
                     array(
                         'type' => 'switch',
-                        'label' => $this->l('Enable Analytics Cookie section'),
-                        'name' => self::MDN_COOKIE_DISPLAY_SECTION_ANALYTICS,
+                        'label' => $this->l('Enable Ad User Personalization section'),
+                        'name' => self::MDN_COOKIE_DISPLAY_SECTION_AD_PERSONALIZATION,
                         'is_bool' => true,
-                        'desc' => $this->l('Enable Analytics Cookie section in front office'),
+                        'desc' => $this->l('Enable Ad User Personalization section in front office'),
+                        'values' => array(
+                            array(
+                                'id' => 'active_on',
+                                'value' => true,
+                                'label' => $this->l('Enabled')
+                            ),
+                            array(
+                                'id' => 'active_off',
+                                'value' => false,
+                                'label' => $this->l('Disabled')
+                            )
+                        ),
+                    ),
+                    array(
+                        'type' => 'switch',
+                        'label' => $this->l('Enable Ad User Data section'),
+                        'name' => self::MDN_COOKIE_DISPLAY_SECTION_AD_USER_DATA,
+                        'is_bool' => true,
+                        'desc' => $this->l('Enable Ads Cookie section in front office'),
                         'values' => array(
                             array(
                                 'id' => 'active_on',
@@ -427,6 +471,12 @@ class Mdn_cookie extends Module
                         'name' => self::MDN_COOKIE_PARAM_BTN_BG,
                         'desc' => $this->l('Change background color'),
                     ),
+                    array(
+                        'type' => 'color',
+                        'label' => $this->l('Button Color'),
+                        'name' => self::MDN_COOKIE_PARAM_BTN_BUTTON,
+                        'desc' => $this->l('Change button color'),
+                    ),
                 ),
                 'submit' => array(
                     'title' => $this->l('Save'),
@@ -453,8 +503,11 @@ class Mdn_cookie extends Module
             self::MDN_COOKIE_DISPLAY_SECTION_FUNCTION => Configuration::get(self::MDN_COOKIE_DISPLAY_SECTION_FUNCTION, null, null, null, true),
             self::MDN_COOKIE_DISPLAY_SECTION_CUSTOMISE => Configuration::get(self::MDN_COOKIE_DISPLAY_SECTION_CUSTOMISE, null, null, null, true),
             self::MDN_COOKIE_DISPLAY_SECTION_SECURITY => Configuration::get(self::MDN_COOKIE_DISPLAY_SECTION_SECURITY, null, null, null, true),
+            self::MDN_COOKIE_DISPLAY_SECTION_AD_PERSONALIZATION => Configuration::get(self::MDN_COOKIE_DISPLAY_SECTION_AD_PERSONALIZATION, null, null, null, true),
+            self::MDN_COOKIE_DISPLAY_SECTION_AD_USER_DATA => Configuration::get(self::MDN_COOKIE_DISPLAY_SECTION_AD_USER_DATA, null, null, null, true),
             self::MDN_COOKIE_PARAM_BTN_BG => Configuration::get(self::MDN_COOKIE_PARAM_BTN_BG, null, null, null, "#fff"),
             self::MDN_COOKIE_PARAM_BTN_COLOR => Configuration::get(self::MDN_COOKIE_PARAM_BTN_COLOR, null, null, null, "#2d4156"),
+            self::MDN_COOKIE_PARAM_BTN_BUTTON => Configuration::get(self::MDN_COOKIE_PARAM_BTN_BUTTON, null, null, null, "#2d4156"),
         );
     }
 
@@ -477,13 +530,20 @@ class Mdn_cookie extends Module
     {
         $this->context->controller->addCSS($this->_path.'/views/css/front.css');
 
+        $language = ["en"];
+        if(file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR .'js'. DIRECTORY_SEPARATOR.'translations'.DIRECTORY_SEPARATOR.$this->context->language->iso_code.'.json')) {
+            $language[] = $this->context->language->iso_code;
+        }
+
         $this->context->smarty->assign(
             [
                 'colors' => [
                     'text' => Configuration::get(self::MDN_COOKIE_PARAM_BTN_COLOR, null, null, null, "#2d4156"),
+                    'button' => Configuration::get(self::MDN_COOKIE_PARAM_BTN_BUTTON, null, null, null, "#2d4156"),
                     'bg' => Configuration::get(self::MDN_COOKIE_PARAM_BTN_BG, null, null, null, "#fff")
                 ],
                 'config' => json_encode([
+                    'locales' => $language,
                     'global' => ['enabled' => Configuration::get(self::MDN_COOKIE_LIVE_MODE, null, null, null, true)],
                     'plugin_options' => [
                         "cookie_name" => "consent-settings",
@@ -505,31 +565,6 @@ class Mdn_cookie extends Module
                         "transition" => "slide",
                         "modal_trigger_selector" => ".open-mdn-cookie"
                     ],
-                    "functionality_storage" => [
-                        "enabled_by_default" => 1,
-                        "display_in_widget" => Configuration::get(self::MDN_COOKIE_DISPLAY_SECTION_FUNCTION, null, null, null, true),
-                        "readonly" => 1,
-                    ],
-                    "personalization_storage" => [
-                        "enabled_by_default" => 0,
-                        "display_in_widget" => Configuration::get(self::MDN_COOKIE_DISPLAY_SECTION_CUSTOMISE, null, null, null, true),
-                        "readonly" => 0,
-                    ],
-                    "security_storage" => [
-                        "enabled_by_default" => 1,
-                        "display_in_widget" => Configuration::get(self::MDN_COOKIE_DISPLAY_SECTION_SECURITY, null, null, null, true),
-                        "readonly" => 1,
-                    ],
-                    "ad_storage" => [
-                        "enabled_by_default" => 0,
-                        "display_in_widget" => Configuration::get(self::MDN_COOKIE_DISPLAY_SECTION_ADS, null, null, null, true),
-                        "readonly" => 0,
-                    ],
-                    "analytics_storage" => [
-                        "enabled_by_default" => 0,
-                        "display_in_widget" => Configuration::get(self::MDN_COOKIE_DISPLAY_SECTION_ANALYTICS, null, null, null, true),
-                        "readonly" => 0,
-                    ],
                     "storage_pool" => [
                         [
                             "name" => "functionality_storage",
@@ -538,16 +573,22 @@ class Mdn_cookie extends Module
                             "readonly" => true,
                         ],
                         [
-                            "name" => "personalization_storage",
-                            "enabled_by_default" => false,
-                            "display_in_widget" => Configuration::get(self::MDN_COOKIE_DISPLAY_SECTION_CUSTOMISE, true),
-                            "readonly" => false,
-                        ],
-                        [
                             "name" => "security_storage",
                             "enabled_by_default" => true,
                             "display_in_widget" => Configuration::get(self::MDN_COOKIE_DISPLAY_SECTION_SECURITY, true),
                             "readonly" => true,
+                        ],
+                        [
+                            "name" => "personalization_storage",
+                            "enabled_by_default" => true,
+                            "display_in_widget" => Configuration::get(self::MDN_COOKIE_DISPLAY_SECTION_CUSTOMISE, true),
+                            "readonly" => false,
+                        ],
+                        [
+                            "name" => "analytics_storage",
+                            "enabled_by_default" => false,
+                            "display_in_widget" => Configuration::get(self::MDN_COOKIE_DISPLAY_SECTION_ANALYTICS, true),
+                            "readonly" => false,
                         ],
                         [
                             "name" => "ad_storage",
@@ -556,9 +597,15 @@ class Mdn_cookie extends Module
                             "readonly" => false,
                         ],
                         [
-                            "name" => "analytics_storage",
+                            "name" => "ad_personalization",
                             "enabled_by_default" => false,
-                            "display_in_widget" => Configuration::get(self::MDN_COOKIE_DISPLAY_SECTION_ANALYTICS, true),
+                            "display_in_widget" => Configuration::get(self::MDN_COOKIE_DISPLAY_SECTION_AD_PERSONALIZATION, true),
+                            "readonly" => false,
+                        ],
+                        [
+                            "name" => "ad_user_data",
+                            "enabled_by_default" => false,
+                            "display_in_widget" => Configuration::get(self::MDN_COOKIE_DISPLAY_SECTION_AD_USER_DATA, true),
                             "readonly" => false,
                         ]
                     ]
